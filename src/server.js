@@ -7,9 +7,7 @@ const server = Server(
   {games: [WsGame],
   origins: [
     // Allow your game site to connect.
-    'https://www.world-seekers.com/',
-    // Allow localhost to connect, except when NODE_ENV is 'production'.
-    Origins.LOCALHOST_IN_DEVELOPMENT
+    'https://www.world-seekers.com/'
   ],
   });
 
