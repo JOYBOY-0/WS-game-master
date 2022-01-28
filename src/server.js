@@ -7,7 +7,8 @@ const server = Server(
   {games: [WsGame],
   origins: [
     // Allow your game site to connect.
-    'https://www.world-seekers.com/'
+    'https://www.world-seekers.com/',
+    'https://www.world-seekers.com/arena'
   ],
   });
 
