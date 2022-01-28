@@ -1,5 +1,7 @@
 const { Server, Origins } = require('boardgame.io/server');
-const { WsGame } = require('./pvp/Game');
+const { WsGame } = require('./Game');
+
+const port = process.env.PORT || 8000
 
 const server = Server({
   games: [WsGame],
@@ -11,4 +13,4 @@ const server = Server({
   ],
 });
 
-server.run(8000);
+server.run(8000, () => console.log('server running ' + port ));

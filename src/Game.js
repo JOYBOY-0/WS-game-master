@@ -1,8 +1,8 @@
 import { INVALID_MOVE } from 'boardgame.io/core';
 import { deck } from "./deck";
 import { EffectsPlugin } from 'bgio-effects/plugin';
-import { config } from './plugins/effects-config';
-import { effectsLibrary } from './functions/Effects'
+import { config } from './effects-config';
+import { effectsLibrary } from './Effects'
 
 export const WsGame = {
 

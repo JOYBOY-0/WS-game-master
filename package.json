@@ -1,0 +1,25 @@
+{
+  "name": "ws-game-master",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node -r esm src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Franchax/WS-game-master.git"
+  },
+  "author": "Francisco Alamino",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Franchax/WS-game-master/issues"
+  },
+  "homepage": "https://github.com/Franchax/WS-game-master#readme",
+  "dependencies": {
+    "bgio-effects": "^0.7.1",
+    "boardgame.io": "^0.49.10",
+    "esm": "^3.2.25"
+  }
+}
