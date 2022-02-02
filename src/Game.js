@@ -28,6 +28,9 @@ export const WsGame = {
             } 
             if (ctx.turn > 1){ draw(G, ctx, ctx.currentPlayer) }
         },
+        onEnd: (G, ctx) => {
+            ctx.effects.finishTurn()
+        }
     },
 
     phases: {
@@ -110,11 +113,12 @@ function summon (G, ctx, index, slot) {
 
         if (card.effect !== undefined && card.effect.trigger === 'summon') {
             effectsLibrary[card.effect.effect](
-                G, 
-                ctx,   
+                G,
+                ctx,
                 ctx.currentPlayer,
                 card.effect.params
-            )
+            );
+            ctx.effects.effectActivate({player: playerID, idx: slot})
         }
     } else if (card !== null
         && Number(card.stats.rank) === 1
@@ -160,6 +164,13 @@ function summon (G, ctx, index, slot) {
     } else { return INVALID_MOVE}
 }
 
+function activateSpell (G, ctx, idx) {
+    let playerID = 'player_' + ctx.currentPlayer;
+    let currentPlayer = G[playerID];
+    const spell = currentPlayer.hand[idx];
+
+}
+
 function setBattle (G, ctx) {
     ctx.events.setPhase('battle');
 }
@@ -172,25 +183,15 @@ function attack (G, ctx, player, idx1, idx2){
 
     if (attack > defense) {
         effectsLibrary.destroy(G, ctx, objetiveOwner(player), idx2)
-        // let card = G.slots[objetiveOwner(player)][idx2];
-        // G.slots[objetiveOwner(player)][idx2] = null;
-        // ctx.effects.destroyAnim({player: objetiveOwner(player), idx: idx2});
-        // G.graveyard[objetiveOwner(player)].push(card)
     }
-    else if (attack < defense ){
+    else {
         effectsLibrary.destroy(G, ctx, player, idx1)
-
-        // let card = G.slots[player][idx1];
-        // G.slots[player][idx1] = null;
-        // ctx.effects.destroyAnim({player: player, idx: idx1});
-        // G.graveyard[player].push(card)
     }
 }
 
 function attackRouter (G, ctx, attacker) {
     let cardOwner = attacker.position.player
     let index = attacker.position.idx
-    // let indexR = [[1, 2, 3], [2, 3, 0], [3, 0, 1], [0, 1, 2]]
 
     if (G.slots[cardOwner][index] !== null){
         ctx.effects.attackAnim(attacker.position);
@@ -198,15 +199,7 @@ function attackRouter (G, ctx, attacker) {
         if(G.slots[objetiveOwner(cardOwner)][index] != null){
             attack (G, ctx, cardOwner, index , index)
         }
-        // else if(G.slots[objetiveOwner(cardOwner)][indexR[index][0]] != null){
-        //     attack (G, ctx, cardOwner, index , indexR[index][0])
-        // }
-        // else if(G.slots[objetiveOwner(cardOwner)][indexR[index][1]] != null){
-        //     attack (G, ctx, cardOwner, index , indexR[index][1])
-        // }
-        // else if(G.slots[objetiveOwner(cardOwner)][indexR[index][2]] != null){
-        //     attack (G, ctx, cardOwner, index , indexR[index][2])
-        // }
+
         else{
             G.HP[objetiveOwner(cardOwner)] = G.HP[objetiveOwner(cardOwner)] - G.slots[cardOwner][index].stats.attack;
             ctx.effects.directAtkAnim({player: objetiveOwner(cardOwner), hp: G.HP[objetiveOwner(cardOwner)]});
@@ -214,9 +207,6 @@ function attackRouter (G, ctx, attacker) {
     }
 }
 
-// function destroy (G, ctx) {
-
-// }
 
 function battle (G, ctx) {
 
@@ -250,4 +240,6 @@ function battle (G, ctx) {
         attackRouter(G, ctx, sortedCards[i]);
     }
     ctx.effects.battleEnd()
+    ctx.events.endTurn()
+
 }
