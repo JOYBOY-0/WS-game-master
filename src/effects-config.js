@@ -4,6 +4,14 @@ export const config = {
     // Each effect is named by its key.
     // This creates a zero-config endTurn effect:
     endTurn: {},
+    summonAnim: {
+      duration: 1,
+      create: (value) => value,
+    },
+    cleanSummonAnim: {
+      create: (value) => value,
+      duration: 0,
+    },
     attackAnim: {
       duration: 2,
       create: (value) => value,
@@ -20,6 +28,10 @@ export const config = {
       duration: 1,
       create: (value) => value,
     },
+    effectActivateGY: {
+      duration: 1,
+      create: (value) => value,
+    },
     battleStart: {
       duration: 0,
     },
@@ -27,11 +39,18 @@ export const config = {
       duration: 0,
     },
     draw: {
-      duration: 0,
+      duration: 1,
       create: (value) => value,
     },
     finishTurn: {
       duration: 0,
+    },
+    updateHand: {
+      create: (value) => value,
+      duration: 0,
+    },
+    span: {
+      duration: 1,
     }
   },
 };
